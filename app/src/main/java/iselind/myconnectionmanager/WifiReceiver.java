@@ -11,10 +11,10 @@ import android.util.Log;
 public class WifiReceiver extends BroadcastReceiver {
     private static final int MINUTE_MS = 1000 * 60;
 
-    private final BluetoothController foo;
+    private final BluetoothController btController;
 
     public WifiReceiver() {
-        this.foo = new BluetoothController();
+        this.btController = new BluetoothController();
     }
 
     @Override
@@ -25,10 +25,10 @@ public class WifiReceiver extends BroadcastReceiver {
             NetworkInfo netInfo = conMan.getActiveNetworkInfo();
             if (netInfo != null && netInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 Log.d("WifiReceiver", "Have Wifi Connection, disabling BlueTooth");
-                this.foo.disable();
+                this.btController.disable();
             } else {
                 Log.d("WifiReceiver", "Don't have Wifi Connection, enabling Bluetooth");
-                this.foo.enable();
+                this.btController.enable();
 
                 Handler handler = new Handler();
                 handler.postDelayed(new BluetoothKiller(), 10 * MINUTE_MS);
